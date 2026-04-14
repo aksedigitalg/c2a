@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Restoranlar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/restaurant-list.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="restaurant-list" class="page-container" x-data="restaurantList()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Restoranlar</span>
+        <button class="btn-icon">
+          <i data-lucide="sliders-horizontal"></i>
+        </button>
+      </header>
+
+      <!-- Arama -->
+      <div class="content-pad rl-search">
+        <div class="rl-search-bar">
+          <i data-lucide="search"></i>
+          <input type="text" class="rl-search-input" placeholder="Restoran ara..." x-model="searchQuery">
+        </div>
+      </div>
+
+      <!-- Filtreler -->
+      <div class="scroll-x rl-filters">
+        <template x-for="filter in filters" :key="filter">
+          <button class="chip" :class="{ 'chip-active': activeFilter === filter }" @click="activeFilter = filter" x-text="filter"></button>
+        </template>
+      </div>
+
+      <!-- Sıralama -->
+      <div class="content-pad rl-sort-bar">
+        <span class="rl-count" x-text="filtered.length + ' restoran bulundu'"></span>
+        <button class="rl-sort-btn" @click="toggleSort()">
+          <i data-lucide="arrow-up-down"></i>
+          <span x-text="sortBy === 'rating' ? 'Puana Göre' : 'Mesafeye Göre'"></span>
+        </button>
+      </div>
+
+      <!-- Restoran Listesi -->
+      <div class="rl-list content-pad">
+        <template x-for="item in filtered" :key="item.id">
+          <a href="restaurant-detail.html" class="rl-card">
+            <div class="rl-card-image-wrap">
+              <div class="image-placeholder rl-card-image"></div>
+              <span class="rl-card-rating">
+                <i data-lucide="star"></i>
+                <span x-text="item.rating"></span>
+              </span>
+              <button class="btn-icon rl-card-fav" @click.prevent="toggleFav(item.id)">
+                <i data-lucide="heart" :class="{ 'rl-fav-active': favorites.includes(item.id) }"></i>
+              </button>
+            </div>
+            <div class="rl-card-body">
+              <h4 class="rl-card-name" x-text="item.name"></h4>
+              <p class="rl-card-cuisine" x-text="item.cuisine"></p>
+              <div class="info-row">
+                <i data-lucide="map-pin"></i>
+                <span x-text="item.address"></span>
+              </div>
+              <div class="info-row">
+                <i data-lucide="clock"></i>
+                <span x-text="item.hours"></span>
+                <span class="info-dot"></span>
+                <i data-lucide="phone"></i>
+                <span x-text="item.phone"></span>
+              </div>
+              <div class="rl-price-level">
+                <template x-for="n in 4" :key="n">
+                  <span :class="n <= item.priceLevel ? 'rl-price-active' : 'rl-price-muted'">₺</span>
+                </template>
+              </div>
+            </div>
+          </a>
+        </template>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/restaurant-list.js"></script>
+
+</body>
+</html>

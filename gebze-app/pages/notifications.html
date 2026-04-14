@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Bildirimler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/notifications.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="notifications" class="page-container" x-data="notificationsScreen()">
+
+      <header class="top-bar">
+        <a href="profile.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Bildirimler</span>
+        <button class="btn-icon" @click="markAllRead()">
+          <i data-lucide="check-check"></i>
+        </button>
+      </header>
+
+      <!-- Bugün -->
+      <section class="section notif-section" x-show="todayItems.length > 0">
+        <div class="notif-group-label">Bugün</div>
+        <div class="notif-list">
+          <template x-for="item in todayItems" :key="item.id">
+            <div class="notif-item" :class="{ 'notif-unread': !item.isRead }">
+              <div class="notif-icon-wrap">
+                <i :data-lucide="item.icon"></i>
+              </div>
+              <div class="notif-body">
+                <p class="notif-title" x-text="item.title"></p>
+                <p class="notif-desc" x-text="item.desc"></p>
+                <span class="notif-time" x-text="item.time"></span>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+
+      <!-- Bu Hafta -->
+      <section class="section notif-section" x-show="weekItems.length > 0">
+        <div class="notif-group-label">Bu Hafta</div>
+        <div class="notif-list">
+          <template x-for="item in weekItems" :key="item.id">
+            <div class="notif-item" :class="{ 'notif-unread': !item.isRead }">
+              <div class="notif-icon-wrap">
+                <i :data-lucide="item.icon"></i>
+              </div>
+              <div class="notif-body">
+                <p class="notif-title" x-text="item.title"></p>
+                <p class="notif-desc" x-text="item.desc"></p>
+                <span class="notif-time" x-text="item.time"></span>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/notifications.js"></script>
+
+</body>
+</html>

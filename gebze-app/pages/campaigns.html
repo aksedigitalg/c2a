@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Kampanyalar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/campaigns.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="campaigns" class="page-container" x-data="campaignsScreen()">
+
+      <header class="top-bar">
+        <div></div>
+        <span class="top-bar-title">Kampanyalar</span>
+        <div></div>
+      </header>
+
+      <!-- Filtreler -->
+      <div class="scroll-x camp-filters">
+        <template x-for="filter in filters" :key="filter">
+          <button class="chip" :class="{ 'chip-active': activeFilter === filter }" @click="activeFilter = filter" x-text="filter"></button>
+        </template>
+      </div>
+
+      <!-- Kampanya Listesi -->
+      <div class="camp-list content-pad">
+        <template x-for="camp in filtered" :key="camp.id">
+          <div class="camp-card">
+            <div class="camp-image-wrap">
+              <div class="image-placeholder camp-image"></div>
+              <span class="camp-discount-chip" x-text="camp.discount"></span>
+            </div>
+            <div class="camp-body">
+              <p class="camp-brand" x-text="camp.brand"></p>
+              <h4 class="camp-title" x-text="camp.title"></h4>
+              <div class="info-row camp-validity">
+                <i data-lucide="calendar"></i>
+                <span x-text="camp.validity"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Alt Navigasyon -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <i data-lucide="home"></i>
+      <span>Anasayfa</span>
+    </a>
+    <a href="search.html" class="nav-item">
+      <i data-lucide="search"></i>
+      <span>Arama</span>
+    </a>
+    <a href="home.html" class="nav-item">
+      <i data-lucide="layout-grid"></i>
+      <span>Kategoriler</span>
+    </a>
+    <a href="campaigns.html" class="nav-item active">
+      <i data-lucide="tag"></i>
+      <span>Kampanyalar</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i data-lucide="user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/campaigns.js"></script>
+
+</body>
+</html>

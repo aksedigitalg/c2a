@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — İlan Detay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/ad-detail.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="ad-detail" class="page-container add-page" x-data="adDetail()">
+
+      <!-- Görsel Slider -->
+      <div class="add-slider">
+        <div class="add-slider-inner scroll-x">
+          <template x-for="(img, index) in images" :key="index">
+            <div class="image-placeholder add-slide-img"></div>
+          </template>
+        </div>
+        <a href="ads-home.html" class="add-back-btn btn-icon">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <div class="add-slider-actions">
+          <button class="btn-icon add-action-btn">
+            <i data-lucide="share-2"></i>
+          </button>
+          <button class="btn-icon add-action-btn" @click="isFavorite = !isFavorite">
+            <i data-lucide="heart" :class="{ 'add-fav-active': isFavorite }"></i>
+          </button>
+        </div>
+        <div class="add-slider-counter">
+          <span x-text="(activeImage + 1) + '/' + images.length"></span>
+        </div>
+      </div>
+
+      <!-- Fiyat ve Başlık -->
+      <div class="content-pad add-price-section">
+        <h2 class="add-price" x-text="ad.price"></h2>
+        <h1 class="add-title" x-text="ad.title"></h1>
+        <div class="info-row add-meta">
+          <i data-lucide="map-pin"></i>
+          <span x-text="ad.location"></span>
+          <span class="info-dot"></span>
+          <span x-text="ad.date"></span>
+        </div>
+      </div>
+
+      <!-- Detay Tablosu -->
+      <div class="content-pad add-details">
+        <h3 class="add-section-title">Detaylar</h3>
+        <div class="add-detail-table">
+          <template x-for="detail in ad.details" :key="detail.label">
+            <div class="add-detail-row">
+              <span class="add-detail-label" x-text="detail.label"></span>
+              <span class="add-detail-value" x-text="detail.value"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Açıklama -->
+      <div class="content-pad add-desc-section">
+        <h3 class="add-section-title">Açıklama</h3>
+        <div class="add-desc-text" :class="{ 'add-desc-collapsed': !showFullDescription }">
+          <p x-text="ad.description"></p>
+        </div>
+        <button class="add-desc-toggle" @click="showFullDescription = !showFullDescription">
+          <span x-text="showFullDescription ? 'Daha az göster' : 'Daha fazla göster'"></span>
+          <i :data-lucide="showFullDescription ? 'chevron-up' : 'chevron-down'"></i>
+        </button>
+      </div>
+
+      <!-- İlan Sahibi -->
+      <div class="content-pad add-owner-section">
+        <div class="add-owner-card card">
+          <div class="add-owner-info">
+            <div class="image-placeholder add-owner-avatar"></div>
+            <div>
+              <p class="add-owner-name" x-text="ad.seller.name"></p>
+              <p class="add-owner-since" x-text="'Üyelik: ' + ad.seller.since"></p>
+            </div>
+            <i data-lucide="chevron-right" class="add-owner-arrow"></i>
+          </div>
+          <p class="add-seller-ads" x-text="'Satıcının diğer ilanları (' + ad.seller.adsCount + ')'"></p>
+        </div>
+      </div>
+
+      <!-- Benzer İlanlar -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Benzer İlanlar</h2>
+        </div>
+        <div class="scroll-x">
+          <template x-for="similar in similarAds" :key="similar.id">
+            <a href="ad-detail.html" class="add-similar-card">
+              <div class="image-placeholder add-similar-image"></div>
+              <div class="add-similar-body">
+                <span class="add-similar-price" x-text="similar.price"></span>
+                <p class="add-similar-title" x-text="similar.title"></p>
+              </div>
+            </a>
+          </template>
+        </div>
+      </section>
+
+      <!-- Alt Bar -->
+      <div class="add-bottom-bar">
+        <button class="btn-secondary add-call-btn">
+          <i data-lucide="phone"></i>
+          Ara
+        </button>
+        <button class="btn-primary add-msg-btn">
+          <i data-lucide="message-circle"></i>
+          Mesaj Gönder
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/ad-detail.js"></script>
+
+</body>
+</html>

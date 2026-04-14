@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Alışveriş</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/shopping.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="shopping" class="page-container" x-data="shoppingHome()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Alışveriş</span>
+        <button class="btn-icon">
+          <i data-lucide="shopping-cart"></i>
+        </button>
+      </header>
+
+      <!-- Arama -->
+      <div class="content-pad sh-search">
+        <div class="sh-search-bar">
+          <i data-lucide="search"></i>
+          <span>Ürün veya mağaza ara...</span>
+        </div>
+      </div>
+
+      <!-- Ana Kategoriler -->
+      <div class="scroll-x sh-main-cats">
+        <template x-for="cat in mainCategories" :key="cat.name">
+          <button class="sh-main-cat" :class="{ 'sh-main-cat-active': activeCategory === cat.name }" @click="activeCategory = cat.name">
+            <div class="sh-main-cat-icon">
+              <i :data-lucide="cat.icon"></i>
+            </div>
+            <span x-text="cat.name"></span>
+          </button>
+        </template>
+      </div>
+
+      <!-- Alt Kategoriler -->
+      <div class="content-pad sh-sub-cats"
+           x-show="true"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end">
+        <div class="sh-sub-grid">
+          <template x-for="sub in currentSubCategories" :key="sub">
+            <button class="sh-sub-item" x-text="sub"></button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Fırsat Ürünleri -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">
+            Fırsat Ürünleri
+            <i data-lucide="flame"></i>
+          </h2>
+        </div>
+        <div class="sh-products-grid content-pad">
+          <template x-for="product in products" :key="product.id">
+            <div class="sh-product-card">
+              <div class="sh-product-image-wrap">
+                <div class="image-placeholder sh-product-image"></div>
+                <span class="sh-discount-badge" x-text="product.discount"></span>
+              </div>
+              <div class="sh-product-body">
+                <p class="sh-product-name" x-text="product.name"></p>
+                <div class="sh-product-prices">
+                  <span class="sh-product-old-price" x-text="product.oldPrice"></span>
+                  <span class="sh-product-new-price" x-text="product.newPrice"></span>
+                </div>
+                <p class="sh-product-store" x-text="product.store"></p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/shopping.js"></script>
+
+</body>
+</html>

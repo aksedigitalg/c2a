@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Etkinlikler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/events.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="events" class="page-container" x-data="eventsList()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Etkinlikler</span>
+        <button class="btn-icon">
+          <i data-lucide="calendar"></i>
+        </button>
+      </header>
+
+      <!-- Tarih Seçici -->
+      <div class="scroll-x ev-dates">
+        <template x-for="date in dates" :key="date.value">
+          <button
+            class="ev-date-item"
+            :class="{ 'ev-date-active': selectedDate === date.value, 'ev-date-today': date.isToday }"
+            @click="selectedDate = date.value"
+          >
+            <span class="ev-date-day" x-text="date.dayName"></span>
+            <span class="ev-date-num" x-text="date.day"></span>
+          </button>
+        </template>
+      </div>
+
+      <!-- Filtreler -->
+      <div class="scroll-x ev-filters">
+        <template x-for="filter in filters" :key="filter">
+          <button class="chip" :class="{ 'chip-active': activeFilter === filter }" @click="activeFilter = filter" x-text="filter"></button>
+        </template>
+      </div>
+
+      <!-- Etkinlik Listesi -->
+      <div class="ev-list content-pad">
+        <template x-for="event in filtered" :key="event.id">
+          <div class="ev-card">
+            <div class="ev-date-block">
+              <span class="ev-month" x-text="event.month"></span>
+              <span class="ev-day" x-text="event.day"></span>
+            </div>
+            <div class="ev-info">
+              <h4 class="ev-title" x-text="event.title"></h4>
+              <div class="info-row">
+                <i data-lucide="map-pin"></i>
+                <span x-text="event.location"></span>
+              </div>
+              <div class="info-row">
+                <i data-lucide="clock"></i>
+                <span x-text="event.time"></span>
+              </div>
+              <span class="chip chip-small ev-cat-chip" x-text="event.category"></span>
+            </div>
+          </div>
+        </template>
+
+        <div x-show="filtered.length === 0" class="ev-empty">
+          <i data-lucide="calendar-x"></i>
+          <p>Bu tarihte etkinlik bulunamadı</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/events.js"></script>
+
+</body>
+</html>

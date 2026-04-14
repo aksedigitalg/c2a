@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Hesap Bilgileri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/edit-profile.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="edit-profile" class="page-container ep-page" x-data="editProfile()">
+
+      <header class="top-bar">
+        <a href="profile.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Hesap Bilgileri</span>
+        <div></div>
+      </header>
+
+      <!-- Avatar -->
+      <div class="ep-avatar-section">
+        <div class="image-placeholder ep-avatar"></div>
+        <button class="ep-change-photo">Fotoğraf Değiştir</button>
+      </div>
+
+      <!-- Form -->
+      <form @submit.prevent="saveProfile()" class="ep-form content-pad">
+        <div class="input-group">
+          <label class="input-label">Ad</label>
+          <input type="text" class="input-field" x-model="name">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Soyad</label>
+          <input type="text" class="input-field" x-model="surname">
+        </div>
+        <div class="input-group">
+          <label class="input-label">E-posta</label>
+          <input type="email" class="input-field" x-model="email" disabled>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Telefon</label>
+          <input type="tel" class="input-field" x-model="phone">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Doğum Tarihi</label>
+          <input type="date" class="input-field" x-model="birthDate">
+        </div>
+
+        <button type="button" class="ep-change-pass btn-ghost">
+          <i data-lucide="key"></i>
+          Şifre Değiştir
+        </button>
+
+        <button type="submit" class="btn-primary ep-save-btn">Kaydet</button>
+      </form>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/edit-profile.js"></script>
+
+</body>
+</html>

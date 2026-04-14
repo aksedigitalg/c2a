@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — İş İlanları</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/jobs.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="jobs" class="page-container" x-data="jobsList()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">İş İlanları</span>
+        <button class="btn-icon">
+          <i data-lucide="filter"></i>
+        </button>
+      </header>
+
+      <!-- Filtreler -->
+      <div class="scroll-x jobs-filters">
+        <template x-for="filter in filters" :key="filter">
+          <button class="chip" :class="{ 'chip-active': activeFilter === filter }" @click="activeFilter = filter" x-text="filter"></button>
+        </template>
+      </div>
+
+      <!-- Arama -->
+      <div class="content-pad jobs-search">
+        <div class="jobs-search-bar">
+          <i data-lucide="search"></i>
+          <input type="text" class="jobs-search-input" placeholder="Pozisyon veya firma ara..." x-model="searchQuery">
+        </div>
+      </div>
+
+      <!-- İlan Listesi -->
+      <div class="jobs-list content-pad">
+        <template x-for="job in filtered" :key="job.id">
+          <a href="job-detail.html" class="card jobs-card">
+            <div class="jobs-card-top">
+              <div class="image-placeholder jobs-logo"></div>
+              <button class="btn-icon jobs-save-btn" @click.prevent="toggleSave(job.id)">
+                <i data-lucide="bookmark" :class="{ 'jobs-saved': savedJobs.includes(job.id) }"></i>
+              </button>
+            </div>
+            <h4 class="jobs-position" x-text="job.position"></h4>
+            <p class="jobs-company" x-text="job.company"></p>
+            <div class="jobs-chips">
+              <span class="chip chip-small">
+                <i data-lucide="map-pin"></i>
+                <span x-text="job.location"></span>
+              </span>
+              <span class="chip chip-small">
+                <i data-lucide="briefcase"></i>
+                <span x-text="job.type"></span>
+              </span>
+              <span class="chip chip-small">
+                <i data-lucide="clock"></i>
+                <span x-text="job.posted"></span>
+              </span>
+            </div>
+            <p class="jobs-salary" x-show="job.salary" x-text="job.salary"></p>
+          </a>
+        </template>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/jobs.js"></script>
+
+</body>
+</html>

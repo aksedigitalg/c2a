@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Anasayfa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="home" class="page-container" x-data="homeScreen()">
+
+      <!-- Üst Bar -->
+      <header class="home-top-bar">
+        <button class="home-location-btn" @click="showCategoriesPopup = false">
+          <i data-lucide="map-pin"></i>
+          <span class="home-location-text">Gebze, Kocaeli</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="home-top-actions">
+          <a href="notifications.html" class="btn-icon home-notif-btn">
+            <i data-lucide="bell"></i>
+            <span class="home-notif-badge" x-show="$store.app.notificationCount > 0" x-text="$store.app.notificationCount"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Arama Çubuğu -->
+      <section class="home-search-section">
+        <a href="search.html" class="home-search-bar">
+          <i data-lucide="search"></i>
+          <span class="home-search-placeholder">Gebze'de ara...</span>
+          <i data-lucide="sliders-horizontal" class="home-search-filter"></i>
+        </a>
+      </section>
+
+      <!-- Slider Bölümü -->
+      <section class="section home-slider-section">
+        <div class="home-slider scroll-x" x-ref="slider" @scroll="updateSlide()">
+          <template x-for="(slide, index) in slides" :key="slide.id">
+            <div class="home-slide">
+              <div class="image-placeholder home-slide-image"></div>
+              <div class="home-slide-content">
+                <h3 class="home-slide-title" x-text="slide.title"></h3>
+                <p class="home-slide-desc" x-text="slide.desc"></p>
+                <span class="home-slide-link">Keşfet →</span>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="home-slider-dots">
+          <template x-for="(slide, index) in slides" :key="slide.id">
+            <span class="home-dot" :class="{ 'home-dot-active': activeSlide === index }"></span>
+          </template>
+        </div>
+      </section>
+
+      <!-- Yakınımda Bölümü -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Yakınımda</h2>
+          <a href="map.html" class="section-link">Tümünü Gör ›</a>
+        </div>
+        <div class="scroll-x">
+          <template x-for="item in nearbyItems" :key="item.id">
+            <a :href="'map.html?category=' + item.slug" class="nearby-item">
+              <div class="nearby-icon-wrap">
+                <i :data-lucide="item.icon"></i>
+              </div>
+              <span class="nearby-label" x-text="item.name"></span>
+            </a>
+          </template>
+        </div>
+      </section>
+
+      <!-- Şehri Keşfet Bölümü -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Şehri Keşfet</h2>
+          <a href="map.html" class="section-link">Tümünü Gör ›</a>
+        </div>
+        <div class="home-explore-grid content-pad">
+          <template x-for="item in exploreItems" :key="item.id">
+            <a :href="'map.html?category=' + item.slug" class="card home-explore-card">
+              <div class="home-explore-icon">
+                <i :data-lucide="item.icon"></i>
+              </div>
+              <h4 class="home-explore-title" x-text="item.name"></h4>
+              <p class="home-explore-desc" x-text="item.desc"></p>
+            </a>
+          </template>
+        </div>
+      </section>
+
+      <!-- Gündem Bölümü -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Gündem</h2>
+          <a href="#" class="section-link" data-barba-prevent="self">Tümünü Gör ›</a>
+        </div>
+        <div class="home-news-list content-pad">
+          <template x-for="item in newsItems" :key="item.id">
+            <article class="home-news-card">
+              <div class="image-placeholder home-news-image"></div>
+              <div class="home-news-body">
+                <span class="chip chip-small home-news-cat" x-text="item.category"></span>
+                <h4 class="home-news-title" x-text="item.title"></h4>
+                <span class="home-news-date" x-text="item.date"></span>
+              </div>
+            </article>
+          </template>
+        </div>
+      </section>
+
+      <!-- Kategoriler Popup Overlay -->
+      <div
+        class="categories-overlay"
+        x-show="showCategoriesPopup"
+        x-transition:enter="overlay-enter"
+        x-transition:enter-start="overlay-enter-start"
+        x-transition:enter-end="overlay-enter-end"
+        x-transition:leave="overlay-leave"
+        x-transition:leave-start="overlay-leave-start"
+        x-transition:leave-end="overlay-leave-end"
+        @click="showCategoriesPopup = false"
+      ></div>
+
+      <!-- Kategoriler Bottom Sheet -->
+      <div
+        class="categories-sheet"
+        x-show="showCategoriesPopup"
+        x-transition:enter="transition-enter"
+        x-transition:enter-start="transition-enter-start"
+        x-transition:enter-end="transition-enter-end"
+        x-transition:leave="transition-leave"
+        x-transition:leave-start="transition-leave-start"
+        x-transition:leave-end="transition-leave-end"
+        @click.stop
+      >
+        <div class="categories-drag-handle"></div>
+        <h2 class="categories-sheet-title">Kategoriler</h2>
+        <div class="categories-grid">
+          <template x-for="cat in categories" :key="cat.id">
+            <a :href="cat.link" class="cat-item" @click="showCategoriesPopup = false">
+              <div class="cat-icon-wrap">
+                <i :data-lucide="cat.icon"></i>
+              </div>
+              <span class="cat-label" x-text="cat.name"></span>
+            </a>
+          </template>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Alt Navigasyon (Barba dışında) -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item active">
+      <i data-lucide="home"></i>
+      <span>Anasayfa</span>
+    </a>
+    <a href="search.html" class="nav-item">
+      <i data-lucide="search"></i>
+      <span>Arama</span>
+    </a>
+    <button class="nav-item" id="nav-categories-btn">
+      <i data-lucide="layout-grid"></i>
+      <span>Kategoriler</span>
+    </button>
+    <a href="campaigns.html" class="nav-item">
+      <i data-lucide="tag"></i>
+      <span>Kampanyalar</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i data-lucide="user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/home.js"></script>
+
+</body>
+</html>

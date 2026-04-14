@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Gebzem AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/gebzem-ai.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="gebzem-ai" class="ai-page" x-data="gebzemAI()" x-init="init()">
+
+      <!-- Top Bar -->
+      <header class="ai-top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <div class="ai-top-center">
+          <i data-lucide="bot"></i>
+          <span>Gebzem AI</span>
+        </div>
+        <div style="width:40px"></div>
+      </header>
+
+      <!-- Chat Area -->
+      <div class="ai-chat-area" x-ref="chatArea">
+
+        <!-- Öneriler (boş başlangıç) -->
+        <div class="ai-suggestions" x-show="messages.length === 0">
+          <div class="ai-welcome">
+            <div class="ai-welcome-icon">
+              <i data-lucide="bot"></i>
+            </div>
+            <h2 class="ai-welcome-title">Merhaba! Ben Gebzem AI</h2>
+            <p class="ai-welcome-text">Gebze hakkında her şeyi sorabilirsin</p>
+          </div>
+          <div class="ai-suggestion-chips">
+            <template x-for="s in suggestions" :key="s">
+              <button class="ai-suggestion-chip" @click="useSuggestion(s)">
+                <span x-text="s"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Mesajlar -->
+        <div class="ai-messages" x-show="messages.length > 0">
+          <template x-for="(msg, index) in messages" :key="index">
+            <div class="ai-message-wrap" :class="{ 'ai-message-wrap-user': msg.type === 'user' }">
+              <div x-show="msg.type === 'ai'" class="ai-message-meta">
+                <i data-lucide="bot"></i>
+                <span>Gebzem AI</span>
+              </div>
+              <div class="ai-bubble" :class="{ 'ai-bubble-user': msg.type === 'user', 'ai-bubble-ai': msg.type === 'ai' }">
+                <p x-text="msg.text"></p>
+              </div>
+            </div>
+          </template>
+
+          <!-- Typing -->
+          <div class="ai-message-wrap" x-show="isTyping">
+            <div class="ai-message-meta">
+              <i data-lucide="bot"></i>
+              <span>Gebzem AI</span>
+            </div>
+            <div class="ai-bubble ai-bubble-ai ai-typing">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="ai-input-area">
+        <input
+          type="text"
+          class="ai-input"
+          placeholder="Bir şey sor..."
+          x-model="inputText"
+          @keyup.enter="sendMessage()"
+        >
+        <button
+          class="ai-send-btn"
+          @click="sendMessage()"
+          :disabled="!inputText.trim()"
+          :class="{ 'ai-send-disabled': !inputText.trim() }"
+        >
+          <i data-lucide="arrow-up"></i>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/gebzem-ai.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+.jobs-filters {
+  margin-bottom: var(--spacing-md);
+}
+
+.jobs-search {
+  margin-bottom: var(--spacing-lg);
+}
+
+.jobs-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 0 16px;
+}
+
+.jobs-search-bar [data-lucide] {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.jobs-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.jobs-search-input::placeholder { color: var(--color-text-muted); }
+
+.jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: var(--spacing-3xl);
+}
+
+.jobs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.jobs-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.jobs-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.jobs-save-btn [data-lucide] {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+}
+
+.jobs-saved {
+  color: var(--color-accent) !important;
+  fill: var(--color-accent);
+}
+
+.jobs-position {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.jobs-company {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.jobs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.jobs-chips .chip [data-lucide] {
+  width: 12px;
+  height: 12px;
+}
+
+.jobs-salary {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}

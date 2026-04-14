@@ -1,0 +1,67 @@
+.camp-filters {
+  margin-bottom: var(--spacing-xl);
+}
+
+.camp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: var(--spacing-3xl);
+}
+
+.camp-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.camp-image-wrap {
+  position: relative;
+}
+
+.camp-image {
+  width: 100%;
+  height: 150px;
+  border-radius: 0;
+}
+
+.camp-discount-chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.camp-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.camp-brand {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.camp-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.camp-validity {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.camp-validity [data-lucide] {
+  width: 12px;
+  height: 12px;
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Favorilerim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/favorites.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="favorites" class="page-container" x-data="favoritesScreen()">
+
+      <header class="top-bar">
+        <a href="profile.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Favorilerim</span>
+        <div></div>
+      </header>
+
+      <!-- Tab Bar -->
+      <div class="fav-tab-bar">
+        <template x-for="tab in tabs" :key="tab.id">
+          <button
+            class="fav-tab"
+            :class="{ 'fav-tab-active': activeTab === tab.id }"
+            @click="activeTab = tab.id"
+            x-text="tab.label"
+          ></button>
+        </template>
+      </div>
+
+      <!-- Restoranlar -->
+      <div x-show="activeTab === 'restoranlar'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="fav-content">
+        <div x-show="restaurants.length > 0" class="fav-restaurant-list content-pad">
+          <template x-for="r in restaurants" :key="r.id">
+            <a href="restaurant-detail.html" class="fav-rest-card card">
+              <div class="image-placeholder fav-rest-image"></div>
+              <div class="fav-rest-body">
+                <h4 class="fav-rest-name" x-text="r.name"></h4>
+                <p class="fav-rest-cuisine" x-text="r.cuisine"></p>
+                <div class="info-row">
+                  <i data-lucide="star"></i>
+                  <span x-text="r.rating"></span>
+                  <span class="info-dot"></span>
+                  <span x-text="r.distance"></span>
+                </div>
+              </div>
+              <button class="btn-icon fav-heart-btn" @click.prevent>
+                <i data-lucide="heart" class="fav-heart-filled"></i>
+              </button>
+            </a>
+          </template>
+        </div>
+        <div x-show="restaurants.length === 0" class="empty-state">
+          <i data-lucide="heart"></i>
+          <p class="empty-state-title">Henüz favori eklemediniz</p>
+          <a href="restaurant-list.html" class="btn-secondary btn-small">Restoranları Keşfet</a>
+        </div>
+      </div>
+
+      <!-- İlanlar -->
+      <div x-show="activeTab === 'ilanlar'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="fav-content">
+        <div x-show="ads.length > 0" class="fav-ads-grid content-pad">
+          <template x-for="ad in ads" :key="ad.id">
+            <a href="ad-detail.html" class="fav-ad-card">
+              <div class="image-placeholder fav-ad-image"></div>
+              <div class="fav-ad-body">
+                <span class="fav-ad-price" x-text="ad.price"></span>
+                <p class="fav-ad-title" x-text="ad.title"></p>
+              </div>
+            </a>
+          </template>
+        </div>
+        <div x-show="ads.length === 0" class="empty-state">
+          <i data-lucide="heart"></i>
+          <p class="empty-state-title">Henüz favori eklemediniz</p>
+          <a href="ads-home.html" class="btn-secondary btn-small">İlanları Keşfet</a>
+        </div>
+      </div>
+
+      <!-- Mekanlar -->
+      <div x-show="activeTab === 'mekanlar'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="fav-content">
+        <div x-show="places.length > 0" class="content-pad fav-places-list">
+          <template x-for="place in places" :key="place.id">
+            <a href="map.html" class="fav-place-row">
+              <div class="fav-place-icon">
+                <i :data-lucide="place.icon"></i>
+              </div>
+              <div class="fav-place-info">
+                <h4 class="fav-place-name" x-text="place.name"></h4>
+                <p class="fav-place-addr" x-text="place.address"></p>
+              </div>
+              <i data-lucide="chevron-right" class="fav-place-arrow"></i>
+            </a>
+          </template>
+        </div>
+        <div x-show="places.length === 0" class="empty-state">
+          <i data-lucide="heart"></i>
+          <p class="empty-state-title">Henüz favori eklemediniz</p>
+          <a href="map.html" class="btn-secondary btn-small">Mekanları Keşfet</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/favorites.js"></script>
+
+</body>
+</html>

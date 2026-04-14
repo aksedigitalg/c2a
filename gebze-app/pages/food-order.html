@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Yemek Siparişi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/food-order.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="food-order" class="page-container" x-data="foodOrder()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Yemek Siparişi</span>
+        <div></div>
+      </header>
+
+      <!-- Arama -->
+      <div class="fo-search content-pad">
+        <div class="fo-search-bar">
+          <i data-lucide="search"></i>
+          <span class="fo-search-placeholder">Restoran veya yemek ara...</span>
+        </div>
+      </div>
+
+      <!-- Filtre Chip'leri -->
+      <div class="scroll-x fo-filters">
+        <template x-for="filter in filters" :key="filter">
+          <button class="chip" :class="{ 'chip-active': activeFilter === filter }" @click="activeFilter = filter" x-text="filter"></button>
+        </template>
+      </div>
+
+      <!-- Kampanyalı Restoranlar -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Kampanyalı Restoranlar</h2>
+          <a href="#" class="section-link" data-barba-prevent="self">Tümünü Gör ›</a>
+        </div>
+        <div class="scroll-x">
+          <template x-for="item in promoRestaurants" :key="item.id">
+            <a href="food-order-detail.html" class="fo-promo-card">
+              <div class="image-placeholder fo-promo-image">
+                <span class="fo-promo-badge" x-text="item.discount"></span>
+              </div>
+              <div class="fo-promo-body">
+                <h4 class="fo-promo-name" x-text="item.name"></h4>
+                <div class="info-row">
+                  <i data-lucide="star"></i>
+                  <span x-text="item.rating"></span>
+                  <span class="info-dot"></span>
+                  <i data-lucide="clock"></i>
+                  <span x-text="item.time"></span>
+                  <span class="info-dot"></span>
+                  <span x-text="'Min. ' + item.minOrder"></span>
+                </div>
+              </div>
+            </a>
+          </template>
+        </div>
+      </section>
+
+      <!-- Yakınımdaki Restoranlar -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Yakınımdaki Restoranlar</h2>
+        </div>
+        <div class="fo-nearby-list content-pad">
+          <template x-for="item in filtered" :key="item.id">
+            <a href="food-order-detail.html" class="fo-nearby-card">
+              <div class="image-placeholder fo-nearby-image"></div>
+              <div class="fo-nearby-body">
+                <div class="fo-nearby-header">
+                  <div>
+                    <h4 class="fo-nearby-name" x-text="item.name"></h4>
+                    <p class="fo-nearby-cuisine" x-text="item.cuisine"></p>
+                  </div>
+                  <button class="btn-icon fo-fav-btn" @click.prevent="toggleFavorite(item.id)">
+                    <i data-lucide="heart" :class="{ 'fo-fav-active': favorites.includes(item.id) }"></i>
+                  </button>
+                </div>
+                <div class="info-row">
+                  <i data-lucide="star"></i>
+                  <span x-text="item.rating"></span>
+                  <span class="info-dot"></span>
+                  <i data-lucide="clock"></i>
+                  <span x-text="item.time"></span>
+                  <span class="info-dot"></span>
+                  <i data-lucide="map-pin"></i>
+                  <span x-text="item.distance"></span>
+                </div>
+              </div>
+            </a>
+          </template>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/food-order.js"></script>
+
+</body>
+</html>

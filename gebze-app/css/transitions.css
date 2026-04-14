@@ -1,0 +1,76 @@
+/* ─── ALPINE POPUP / MODAL (bottom sheet slide-up) ─── */
+.transition-enter {
+  transition: all var(--transition-spring);
+}
+.transition-enter-start {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.transition-enter-end {
+  opacity: 1;
+  transform: translateY(0);
+}
+.transition-leave {
+  transition: all var(--transition-normal);
+}
+.transition-leave-start {
+  opacity: 1;
+  transform: translateY(0);
+}
+.transition-leave-end {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* ─── ALPINE OVERLAY ─── */
+.overlay-enter {
+  transition: opacity var(--transition-normal);
+}
+.overlay-enter-start {
+  opacity: 0;
+}
+.overlay-enter-end {
+  opacity: 1;
+}
+.overlay-leave {
+  transition: opacity var(--transition-fast);
+}
+.overlay-leave-start {
+  opacity: 1;
+}
+.overlay-leave-end {
+  opacity: 0;
+}
+
+/* ─── ALPINE FADE (tab contents, etc.) ─── */
+.fade-enter {
+  transition: opacity var(--transition-normal);
+}
+.fade-enter-start {
+  opacity: 0;
+}
+.fade-enter-end {
+  opacity: 1;
+}
+.fade-leave {
+  transition: opacity var(--transition-fast);
+}
+.fade-leave-start {
+  opacity: 1;
+}
+.fade-leave-end {
+  opacity: 0;
+}
+
+/* ─── SUCCESS BOUNCE ─── */
+.success-enter {
+  transition: all var(--transition-spring);
+}
+.success-enter-start {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.success-enter-end {
+  opacity: 1;
+  transform: scale(1);
+}

@@ -1,0 +1,172 @@
+.fav-tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--page-padding);
+}
+
+.fav-tab {
+  flex: 1;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.fav-tab-active {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.fav-content {
+  padding-top: var(--spacing-lg);
+}
+
+/* Restoranlar */
+.fav-restaurant-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.fav-rest-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+  padding: var(--spacing-md);
+}
+
+.fav-rest-image {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.fav-rest-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fav-rest-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fav-rest-cuisine {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.fav-heart-btn [data-lucide] {
+  width: 18px;
+  height: 18px;
+}
+
+.fav-heart-filled {
+  color: var(--color-error);
+  fill: var(--color-error);
+}
+
+/* İlanlar */
+.fav-ads-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fav-ad-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.fav-ad-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+}
+
+.fav-ad-body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fav-ad-price {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fav-ad-title {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Mekanlar */
+.fav-places-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.fav-place-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+}
+
+.fav-place-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fav-place-icon [data-lucide] {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.fav-place-info {
+  flex: 1;
+}
+
+.fav-place-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.fav-place-addr {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.fav-place-arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+}

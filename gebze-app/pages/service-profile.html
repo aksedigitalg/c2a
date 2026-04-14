@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Hizmet Profili</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/service-profile.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="service-profile" class="page-container sp-page" x-data="serviceProfile()">
+
+      <!-- Kapak + Avatar -->
+      <div class="sp-cover">
+        <div class="sp-cover-bg"></div>
+        <a href="services.html" class="sp-back-btn btn-icon">
+          <i data-lucide="chevron-left"></i>
+        </a>
+      </div>
+      <div class="sp-avatar-wrap">
+        <div class="image-placeholder sp-avatar"></div>
+      </div>
+
+      <!-- Profil Bilgi -->
+      <div class="sp-profile-info">
+        <h1 class="sp-name" x-text="provider.name"></h1>
+        <p class="sp-title" x-text="provider.title"></p>
+        <div class="info-row sp-location">
+          <i data-lucide="map-pin"></i>
+          <span x-text="provider.location"></span>
+        </div>
+      </div>
+
+      <!-- İstatistikler -->
+      <div class="content-pad">
+        <div class="stat-grid sp-stats">
+          <div class="stat-item">
+            <div class="stat-value">
+              <i data-lucide="star" class="sp-stat-icon"></i>
+              <span x-text="provider.rating"></span>
+            </div>
+            <span class="stat-label">Puan</span>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">
+              <span x-text="provider.reviewCount"></span>
+            </div>
+            <span class="stat-label">Yorum</span>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">
+              <span x-text="provider.experience"></span>
+            </div>
+            <span class="stat-label">Deneyim</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hakkında -->
+      <div class="content-pad sp-section">
+        <h3 class="sp-section-title">Hakkında</h3>
+        <p class="sp-about-text" x-text="provider.about"></p>
+      </div>
+
+      <!-- Hizmetler -->
+      <div class="content-pad sp-section">
+        <h3 class="sp-section-title">Verdiği Hizmetler</h3>
+        <div class="sp-service-chips">
+          <template x-for="s in provider.services" :key="s">
+            <span class="chip" x-text="s"></span>
+          </template>
+        </div>
+      </div>
+
+      <!-- Çalışma Saatleri -->
+      <div class="content-pad sp-section">
+        <h3 class="sp-section-title">Çalışma Saatleri</h3>
+        <div class="sp-hours">
+          <template x-for="h in provider.hours" :key="h.days">
+            <div class="sp-hours-row">
+              <span class="sp-hours-days" x-text="h.days"></span>
+              <span class="sp-hours-time" x-text="h.time"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Yorumlar -->
+      <div class="content-pad sp-section">
+        <div class="sp-reviews-header">
+          <h3 class="sp-section-title">Son Yorumlar</h3>
+          <button class="btn-ghost sp-see-all" @click="showAllReviews = true" x-show="!showAllReviews">Tümünü Gör ›</button>
+        </div>
+        <div class="sp-reviews">
+          <template x-for="r in (showAllReviews ? reviews : reviews.slice(0, 3))" :key="r.id">
+            <div class="sp-review-card">
+              <div class="sp-review-header">
+                <div class="image-placeholder sp-review-avatar"></div>
+                <div>
+                  <p class="sp-review-name" x-text="r.name"></p>
+                  <p class="sp-review-date" x-text="r.date"></p>
+                </div>
+                <div class="stars sp-review-stars">
+                  <template x-for="s in r.rating" :key="s">
+                    <i data-lucide="star"></i>
+                  </template>
+                </div>
+              </div>
+              <p class="sp-review-text" x-text="r.text"></p>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Alt Bar -->
+      <div class="sp-bottom-bar">
+        <button class="btn-secondary sp-call-btn">
+          <i data-lucide="phone"></i>
+          Ara
+        </button>
+        <button class="btn-primary sp-msg-btn">
+          <i data-lucide="message-circle"></i>
+          Mesaj
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/service-profile.js"></script>
+
+</body>
+</html>

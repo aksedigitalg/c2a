@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Hizmetler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/services.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="services" class="page-container" x-data="servicesHome()">
+
+      <header class="top-bar">
+        <a href="home.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <span class="top-bar-title">Hizmetler</span>
+        <div></div>
+      </header>
+
+      <!-- Arama -->
+      <div class="content-pad sv-search">
+        <div class="sv-search-bar">
+          <i data-lucide="search"></i>
+          <span>Hizmet veya uzman ara...</span>
+        </div>
+      </div>
+
+      <!-- Kategori Grid -->
+      <section class="section">
+        <div class="content-pad">
+          <div class="sv-cat-grid">
+            <template x-for="cat in categories" :key="cat.id">
+              <a href="service-profile.html" class="sv-cat-item">
+                <div class="sv-cat-icon">
+                  <i :data-lucide="cat.icon"></i>
+                </div>
+                <span class="sv-cat-label" x-text="cat.name"></span>
+              </a>
+            </template>
+          </div>
+        </div>
+      </section>
+
+      <!-- Öne Çıkan Uzmanlar -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Öne Çıkan Uzmanlar</h2>
+          <a href="#" class="section-link" data-barba-prevent="self">Tümünü Gör ›</a>
+        </div>
+        <div class="scroll-x">
+          <template x-for="expert in featuredProviders" :key="expert.id">
+            <a href="service-profile.html" class="sv-expert-card">
+              <div class="image-placeholder sv-expert-avatar"></div>
+              <h4 class="sv-expert-name" x-text="expert.name"></h4>
+              <p class="sv-expert-spec" x-text="expert.specialty"></p>
+              <div class="info-row sv-expert-rating">
+                <i data-lucide="star"></i>
+                <span x-text="expert.rating"></span>
+                <span x-text="'(' + expert.reviews + ' yorum)'"></span>
+              </div>
+            </a>
+          </template>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/services.js"></script>
+
+</body>
+</html>

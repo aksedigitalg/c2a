@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Giriş Yap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="login" class="page-container">
+
+      <div x-data="loginForm()">
+        <header class="top-bar">
+          <a href="onboarding.html" class="top-bar-back">
+            <i data-lucide="chevron-left"></i>
+          </a>
+          <div></div>
+          <div></div>
+        </header>
+
+        <div class="login-content">
+          <h1 class="login-title">Hoş Geldiniz</h1>
+          <p class="login-subtitle">Hesabınıza giriş yapın</p>
+
+          <form @submit.prevent="handleLogin()" class="login-form">
+            <div class="input-group">
+              <label class="input-label">E-posta</label>
+              <div class="input-with-icon">
+                <i data-lucide="mail" class="input-icon"></i>
+                <input
+                  type="email"
+                  class="input-field"
+                  placeholder="E-posta adresiniz"
+                  x-model="email"
+                  autocomplete="email"
+                >
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Şifre</label>
+              <div class="input-with-icon">
+                <i data-lucide="lock" class="input-icon"></i>
+                <input
+                  :type="showPassword ? 'text' : 'password'"
+                  class="input-field"
+                  placeholder="Şifreniz"
+                  x-model="password"
+                  autocomplete="current-password"
+                >
+                <button type="button" class="input-icon-right password-toggle" @click="showPassword = !showPassword">
+                  <i :data-lucide="showPassword ? 'eye-off' : 'eye'"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="login-forgot">
+              <a href="password-reset.html" class="login-forgot-link">Şifremi Unuttum</a>
+            </div>
+
+            <button type="submit" class="btn-primary" :disabled="!email || !password || isLoading">
+              <span x-show="!isLoading">Giriş Yap</span>
+              <span x-show="isLoading">Giriş yapılıyor...</span>
+            </button>
+          </form>
+
+          <div class="divider-text">veya</div>
+
+          <div class="login-social">
+            <button class="btn-secondary login-social-btn">
+              <span class="social-icon-text">G</span>
+              Google ile devam et
+            </button>
+            <button class="btn-secondary login-social-btn">
+              <span class="social-icon-text"></span>
+              Apple ile devam et
+            </button>
+          </div>
+
+          <p class="login-register-text">
+            Hesabınız yok mu?
+            <a href="register.html" class="login-register-link">Kayıt Ol</a>
+          </p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/login.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Restoran Detay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/restaurant-detail.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="restaurant-detail" class="page-container rd-page" x-data="restaurantDetail()">
+
+      <!-- Hero -->
+      <div class="rd-hero">
+        <div class="image-placeholder rd-hero-image"></div>
+        <a href="restaurant-list.html" class="rd-back-btn btn-icon">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <button class="rd-fav-btn btn-icon" @click="isFavorite = !isFavorite">
+          <i data-lucide="heart" :class="{ 'rd-fav-active': isFavorite }"></i>
+        </button>
+      </div>
+
+      <!-- Info Card -->
+      <div class="rd-info-card">
+        <h1 class="rd-name" x-text="restaurant.name"></h1>
+        <div class="rd-tags">
+          <template x-for="tag in restaurant.tags" :key="tag">
+            <span class="chip chip-small" x-text="tag"></span>
+          </template>
+        </div>
+        <div class="info-row rd-rating-row">
+          <i data-lucide="star"></i>
+          <span class="rd-rating-val" x-text="restaurant.rating"></span>
+          <span class="rd-rating-count" x-text="'(' + restaurant.reviewCount + ' yorum)'"></span>
+        </div>
+        <div class="rd-info-grid">
+          <div class="rd-info-cell">
+            <i data-lucide="clock"></i>
+            <span class="rd-info-main" x-text="restaurant.hours"></span>
+            <span class="rd-info-sub rd-open">Açık</span>
+          </div>
+          <div class="rd-info-cell">
+            <i data-lucide="map-pin"></i>
+            <span class="rd-info-main" x-text="restaurant.distance"></span>
+            <span class="rd-info-sub" x-text="restaurant.area"></span>
+          </div>
+          <div class="rd-info-cell">
+            <i data-lucide="phone"></i>
+            <span class="rd-info-main" x-text="restaurant.phone"></span>
+            <span class="rd-info-sub">Ara</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="rd-tab-bar">
+        <template x-for="tab in tabs" :key="tab">
+          <button class="rd-tab" :class="{ 'rd-tab-active': activeTab === tab }" @click="activeTab = tab" x-text="tab"></button>
+        </template>
+      </div>
+
+      <!-- Menü Tab -->
+      <div x-show="activeTab === 'Menü'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="rd-tab-content content-pad">
+        <template x-for="cat in menuCategories" :key="cat">
+          <div class="rd-menu-section">
+            <h3 class="rd-menu-cat" x-text="cat"></h3>
+            <template x-for="item in menuItems.filter(i => i.category === cat)" :key="item.id">
+              <div class="rd-menu-item">
+                <div>
+                  <p class="rd-menu-name" x-text="item.name"></p>
+                  <p class="rd-menu-desc" x-text="item.desc"></p>
+                  <span class="rd-menu-price" x-text="'₺' + item.price"></span>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <!-- Fotoğraflar Tab -->
+      <div x-show="activeTab === 'Fotoğraflar'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="rd-tab-content rd-photos-grid">
+        <template x-for="n in 9" :key="n">
+          <div class="image-placeholder rd-photo"></div>
+        </template>
+      </div>
+
+      <!-- Yorumlar Tab -->
+      <div x-show="activeTab === 'Yorumlar'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="rd-tab-content content-pad">
+        <div class="rd-rating-summary">
+          <span class="rd-big-rating" x-text="restaurant.rating"></span>
+          <div class="stars">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <span class="rd-review-count" x-text="'(' + restaurant.reviewCount + ' yorum)'"></span>
+        </div>
+        <div class="rd-reviews">
+          <template x-for="review in reviews" :key="review.id">
+            <div class="rd-review-card">
+              <div class="rd-review-header">
+                <div class="image-placeholder rd-review-avatar"></div>
+                <div>
+                  <p class="rd-review-name" x-text="review.name"></p>
+                  <p class="rd-review-date" x-text="review.date"></p>
+                </div>
+              </div>
+              <div class="stars rd-review-stars">
+                <template x-for="s in review.rating" :key="s">
+                  <i data-lucide="star"></i>
+                </template>
+              </div>
+              <p class="rd-review-text" x-text="review.text"></p>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Bilgi Tab -->
+      <div x-show="activeTab === 'Bilgi'"
+           x-transition:enter="fade-enter"
+           x-transition:enter-start="fade-enter-start"
+           x-transition:enter-end="fade-enter-end"
+           class="rd-tab-content content-pad">
+        <div class="rd-info-rows">
+          <div class="rd-info-row">
+            <i data-lucide="map-pin"></i>
+            <div>
+              <p x-text="restaurant.fullAddress"></p>
+              <a href="map.html" class="rd-map-link">Haritada Gör</a>
+            </div>
+          </div>
+          <div class="rd-info-row">
+            <i data-lucide="phone"></i>
+            <div>
+              <p x-text="restaurant.phone"></p>
+              <a :href="'tel:' + restaurant.phone" class="rd-map-link" data-barba-prevent="self">Ara</a>
+            </div>
+          </div>
+          <div class="rd-info-row">
+            <i data-lucide="clock"></i>
+            <div class="rd-hours-table">
+              <template x-for="h in workingHours" :key="h.day">
+                <div class="rd-hours-row">
+                  <span class="rd-hours-day" x-text="h.day"></span>
+                  <span class="rd-hours-time" x-text="h.hours"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="rd-features">
+          <h4 class="rd-features-title">Özellikler</h4>
+          <div class="rd-features-chips">
+            <template x-for="f in restaurant.features" :key="f">
+              <span class="chip chip-small" x-text="f"></span>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sabit Alt Bar -->
+      <div class="rd-bottom-bar">
+        <button class="btn-secondary rd-dir-btn">
+          <i data-lucide="navigation"></i>
+          Yol Tarifi
+        </button>
+        <button class="btn-primary rd-res-btn">
+          <i data-lucide="phone"></i>
+          Rezervasyon
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/restaurant-detail.js"></script>
+
+</body>
+</html>

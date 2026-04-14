@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — Harita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/map.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="map" class="map-page" x-data="mapScreen()">
+
+      <!-- Harita Placeholder -->
+      <div class="map-bg">
+        <div class="map-grid"></div>
+        <!-- Harita Pinleri -->
+        <template x-for="place in filteredPlaces" :key="place.id">
+          <button
+            class="map-pin"
+            :style="'top:' + place.top + '%; left:' + place.left + '%'"
+            @click="selectedPlace = place"
+            :class="{ 'map-pin-active': selectedPlace && selectedPlace.id === place.id }"
+          >
+            <span class="map-pin-dot"></span>
+          </button>
+        </template>
+      </div>
+
+      <!-- Floating Arama -->
+      <div class="map-floating-search">
+        <a href="home.html" class="map-back-btn btn-icon">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <div class="map-search-bar">
+          <i data-lucide="search"></i>
+          <span>Bu alanda ara...</span>
+        </div>
+      </div>
+
+      <!-- Kategori Chip'leri -->
+      <div class="map-category-chips scroll-x">
+        <template x-for="cat in categories" :key="cat.id">
+          <button
+            class="chip map-chip"
+            :class="{ 'chip-active': activeCategory === cat.id }"
+            @click="activeCategory = activeCategory === cat.id ? null : cat.id"
+          >
+            <i :data-lucide="cat.icon"></i>
+            <span x-text="cat.name"></span>
+          </button>
+        </template>
+      </div>
+
+      <!-- Sağ Butonlar -->
+      <div class="map-right-btns">
+        <button class="btn-icon map-ctrl-btn">
+          <i data-lucide="crosshair"></i>
+        </button>
+        <button class="btn-icon map-ctrl-btn">
+          <i data-lucide="plus"></i>
+        </button>
+        <button class="btn-icon map-ctrl-btn">
+          <i data-lucide="minus"></i>
+        </button>
+      </div>
+
+      <!-- Bottom Sheet -->
+      <div
+        class="map-bottom-sheet"
+        x-show="selectedPlace"
+        x-transition:enter="transition-enter"
+        x-transition:enter-start="transition-enter-start"
+        x-transition:enter-end="transition-enter-end"
+        x-transition:leave="transition-leave"
+        x-transition:leave-start="transition-leave-start"
+        x-transition:leave-end="transition-leave-end"
+      >
+        <div class="map-sheet-drag"></div>
+        <div class="map-sheet-content" x-show="selectedPlace">
+          <div class="map-place-card">
+            <div class="map-place-icon">
+              <i :data-lucide="selectedPlace?.icon || 'map-pin'"></i>
+            </div>
+            <div class="map-place-info">
+              <h4 class="map-place-name" x-text="selectedPlace?.name"></h4>
+              <p class="map-place-address" x-text="selectedPlace?.address"></p>
+              <span class="map-place-distance" x-text="selectedPlace?.distance"></span>
+            </div>
+            <button class="btn-icon map-close-btn" @click="selectedPlace = null">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+          <button class="btn-primary map-direction-btn">
+            <i data-lucide="navigation"></i>
+            Yol Tarifi
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/map.js"></script>
+
+</body>
+</html>

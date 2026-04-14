@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="../manifest.json">
+  <title>Gebze — İş İlanı Detay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/transitions.css">
+  <link rel="stylesheet" href="../css/job-detail.css">
+</head>
+<body>
+
+  <div data-barba="wrapper">
+    <main data-barba="container" data-barba-namespace="job-detail" class="page-container jd-page" x-data="jobDetail()">
+
+      <header class="top-bar">
+        <a href="jobs.html" class="top-bar-back">
+          <i data-lucide="chevron-left"></i>
+        </a>
+        <div></div>
+        <div class="top-bar-action">
+          <button class="btn-icon">
+            <i data-lucide="share-2"></i>
+          </button>
+          <button class="btn-icon" @click="isSaved = !isSaved">
+            <i data-lucide="bookmark" :class="{ 'jd-saved': isSaved }"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Firma Bilgi Kartı -->
+      <div class="content-pad jd-company-card">
+        <div class="image-placeholder jd-company-logo"></div>
+        <div class="jd-company-info">
+          <h2 class="jd-company-name" x-text="job.company"></h2>
+          <p class="jd-company-sector" x-text="job.sector"></p>
+          <div class="info-row">
+            <i data-lucide="map-pin"></i>
+            <span x-text="job.location"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-pad">
+        <h1 class="jd-position" x-text="job.position"></h1>
+
+        <!-- Bilgi Kartları -->
+        <div class="jd-info-grid">
+          <div class="jd-info-cell">
+            <i data-lucide="briefcase"></i>
+            <span class="jd-info-val" x-text="job.type"></span>
+            <span class="jd-info-label">Çalışma Şekli</span>
+          </div>
+          <div class="jd-info-cell">
+            <i data-lucide="award"></i>
+            <span class="jd-info-val" x-text="job.experience"></span>
+            <span class="jd-info-label">Deneyim</span>
+          </div>
+          <div class="jd-info-cell">
+            <i data-lucide="banknote"></i>
+            <span class="jd-info-val" x-text="job.salary"></span>
+            <span class="jd-info-label">Maaş</span>
+          </div>
+        </div>
+
+        <!-- İş Tanımı -->
+        <div class="jd-section">
+          <h3 class="jd-section-title">İş Tanımı</h3>
+          <p class="jd-desc-text" x-text="job.description"></p>
+        </div>
+
+        <!-- Aranan Nitelikler -->
+        <div class="jd-section">
+          <h3 class="jd-section-title">Aranan Nitelikler</h3>
+          <ul class="jd-qual-list">
+            <template x-for="q in job.qualifications" :key="q">
+              <li class="jd-qual-item">
+                <i data-lucide="check-circle"></i>
+                <span x-text="q"></span>
+              </li>
+            </template>
+          </ul>
+        </div>
+
+        <!-- Yan Haklar -->
+        <div class="jd-section">
+          <h3 class="jd-section-title">Yan Haklar</h3>
+          <div class="jd-benefits">
+            <template x-for="b in job.benefits" :key="b">
+              <span class="chip" x-text="b"></span>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sabit Alt Bar -->
+      <div class="jd-bottom-bar">
+        <button class="btn-primary">Başvur</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/job-detail.js"></script>
+
+</body>
+</html>
