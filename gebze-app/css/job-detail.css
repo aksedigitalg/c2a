@@ -41,8 +41,8 @@
   margin-bottom: var(--spacing-lg);
 }
 
-.jd-saved {
-  color: var(--color-accent) !important;
+.btn-icon [data-lucide].jd-saved {
+  color: var(--color-accent);
   fill: var(--color-accent);
 }
 

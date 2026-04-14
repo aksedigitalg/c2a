@@ -249,3 +249,8 @@
   opacity: 0.3;
   pointer-events: none;
 }
+
+.ai-top-spacer {
+  width: 40px;
+  flex-shrink: 0;
+}

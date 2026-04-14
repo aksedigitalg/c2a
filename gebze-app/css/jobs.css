@@ -67,8 +67,8 @@
   color: var(--color-text-muted);
 }
 
-.jobs-saved {
-  color: var(--color-accent) !important;
+.jobs-save-btn [data-lucide].jobs-saved {
+  color: var(--color-accent);
   fill: var(--color-accent);
 }
 

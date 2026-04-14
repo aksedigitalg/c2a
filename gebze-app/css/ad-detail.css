@@ -51,8 +51,8 @@
   height: 18px;
 }
 
-.add-fav-active {
-  color: var(--color-error) !important;
+.add-action-btn [data-lucide].add-fav-active {
+  color: var(--color-error);
   fill: var(--color-error);
 }
 

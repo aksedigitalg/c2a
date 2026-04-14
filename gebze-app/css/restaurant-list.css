@@ -133,8 +133,8 @@
   color: var(--color-text-muted);
 }
 
-.rl-fav-active {
-  color: var(--color-error) !important;
+.rl-card-fav [data-lucide].rl-fav-active {
+  color: var(--color-error);
   fill: var(--color-error);
 }
 

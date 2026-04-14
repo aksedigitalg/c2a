@@ -140,7 +140,7 @@
   transition: color var(--transition-fast);
 }
 
-.fo-fav-active {
-  color: var(--color-error) !important;
+.fo-fav-btn [data-lucide].fo-fav-active {
+  color: var(--color-error);
   fill: var(--color-error);
 }

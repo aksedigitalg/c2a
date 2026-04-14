@@ -34,8 +34,8 @@
   color: var(--color-text-muted);
 }
 
-.rd-fav-active {
-  color: var(--color-error) !important;
+.rd-fav-btn [data-lucide].rd-fav-active {
+  color: var(--color-error);
   fill: var(--color-error);
 }
 
